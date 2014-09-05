@@ -53,12 +53,12 @@ dootbot = Bot.new do
     end
   end
 
-  on :message, Regexp.new('^!log.*') do |m|
+  on :message, /^!log.*/ do |m|
     paste = HTTParty.post('http://sprunge.us', body: { sprunge: File.open("#{m.channel.to_s[1..m.channel.to_s.length]}log.txt").read })
     m.reply("#{m.user}: Log: #{paste}")
   end
 
-  on :message, Regexp.new('^!clearlogs$', true) do |m|
+  on :message, /^!clearlogs$/i do |m|
     if m.user.authname == 'TieSoul'
       File.open("#{m.channel.to_s[1..m.channel.to_s.length]}log.txt", 'w').close
       m.reply('Message logs successfully cleared.')
@@ -69,7 +69,7 @@ dootbot = Bot.new do
     unless m.channel.users.keys.include? 'YayBot'
       begin
         timeout(1,TimeoutError) do
-          insensitive = false
+          insensitive = 0
           global = false
           number = 1
           if m.message.split(/(?<!\\)\//).length == 4
@@ -78,7 +78,7 @@ dootbot = Bot.new do
             modifiers = ''
           end
           if modifiers.include? 'i'
-            insensitive = true
+            insensitive = Regexp::IGNORECASE
           end
           if modifiers.include? 'g'
             global = true
