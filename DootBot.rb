@@ -69,7 +69,7 @@ dootbot = Bot.new do
     unless m.channel.users.keys.include? 'YayBot'
       begin
         timeout(1,TimeoutError) do
-          insensitive = false
+          insensitive = 0
           global = false
           number = 1
           if m.message.split(/(?<!\\)\//).length == 4
@@ -78,7 +78,7 @@ dootbot = Bot.new do
             modifiers = ''
           end
           if modifiers.include? 'i'
-            insensitive = true
+            insensitive = Regexp::IGNORECASE
           end
           if modifiers.include? 'g'
             global = true
