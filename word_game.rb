@@ -6,7 +6,7 @@ module Cinch::Plugins
 
     def initialize(*)
       super
-      @dict = File.open('dict.txt').read.split("\n")
+      @dict = File.readlines('dict.txt').map(&:chomp)
     end
 
     match(/wordgame start/, method: :start)
