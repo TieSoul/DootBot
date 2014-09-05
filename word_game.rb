@@ -20,19 +20,15 @@ module Cinch::Plugins
 
     match(/guess (\S+)/, method: :guess)
     def guess(m, guess)
-      if @started
-        if @dict.include? guess
-          if guess.downcase < @word.downcase
-            m.reply("#{m.user.nick}: #{guess} comes before the word in the dictionary.")
-          elsif guess.downcase > @word.downcase
-            m.reply("#{m.user.nick}: #{guess} comes after the word in the dictionary.")
-          else
-            m.reply("#{m.user.nick}: #{guess} is correct! #{m.user.nick} is the winner! Congratulations!")
-            @started = false
-          end
-        else
-          m.reply("#{m.user.nick}: #{guess} is not in my dictionary.")
-        end
+      return unless @started
+
+      if guess.downcase < @word.downcase
+        m.reply("#{m.user.nick}: #{guess} comes before the word in the dictionary.")
+      elsif guess.downcase > @word.downcase
+        m.reply("#{m.user.nick}: #{guess} comes after the word in the dictionary.")
+      else
+        m.reply("#{m.user.nick}: #{guess} is correct! #{m.user.nick} is the winner! Congratulations!")
+        @started = false
       end
     end
   end
